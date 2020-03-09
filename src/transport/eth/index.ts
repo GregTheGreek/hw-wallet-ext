@@ -55,27 +55,13 @@ export class EthLedgerTransport {
             value: ethers.utils.parseEther(amount),
             chainId: getNetworkId(chainId)
         }
-        // const tx = {
-        //     to: "0xb2Fb89aaBba7a6C8DD061fD2a6F046fb94394ee6",
-        //     value: ethers.utils.parseEther(amount),
-        //     chainId: 5
-        // }
-        // path = "44'/60'/0'/0";
-
-        
-        console.log("transaction", tx)
-        console.log(path)
         const unsignedTx = ethers.utils.serializeTransaction(tx).substring(2);
-        console.log("unsigned", unsignedTx)
         const signature = await this.ethApp.signTransaction(path, unsignedTx);
-        console.log(signature)
         let sig = {
             v: parseInt(signature.v, 16),
             r: '0x' + signature.r,
             s: '0x' + signature.s,
         };
-
-        console.log("sig", sig)
         return {tx, sig};
     }
 
